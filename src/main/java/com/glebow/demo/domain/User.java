@@ -3,8 +3,6 @@
  */
 package com.glebow.demo.domain;
 
-import javax.persistence.Version;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,7 +22,7 @@ public class User {
 	@Id
 	private String id;
 	
-	@Version
+	//@Version
 	private long version;
 	
 	@Indexed
