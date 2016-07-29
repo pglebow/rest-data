@@ -7,8 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author pglebow
@@ -16,13 +16,13 @@ import lombok.Data;
  */
 @Data
 @Document(collection="users")
-@Builder
+@NoArgsConstructor
 public class User {
 
 	@Id
 	private String id;
 	
-	//@Version
+	//@Version   
 	private long version;
 	
 	@Indexed

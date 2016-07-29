@@ -52,7 +52,10 @@ public class UserServiceImpl implements UserService {
 		nonNullNotBlank(lastName, "lastName");
 		nonNullNotBlank(email, "email");
 		
-		User newUser = User.builder().firstName(firstName).lastName(lastName).email(email).build();
+		User newUser = new User();
+		newUser.setFirstName(firstName);
+		newUser.setLastName(lastName);
+		newUser.setEmail(email);
 		
 		retVal = userRepository.save(newUser);
 		
