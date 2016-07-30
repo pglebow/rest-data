@@ -74,4 +74,10 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	public void deleteUser(String id) {
+		nonNullNotBlank(id, "id");
+		userRepository.delete(id);
+	}
+
 }
