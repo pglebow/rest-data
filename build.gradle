@@ -34,6 +34,8 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile("org.springframework.boot:spring-boot-starter-data-rest")
+	compile('org.springframework.data:spring-data-rest-webmvc:2.5.2.RELEASE')
+	compile('org.springframework.data:spring-data-rest-hal-browser')
 	compile('org.projectlombok:lombok:1.16.8')
     compile('org.mongodb:mongo-java-driver:3.3.0')
 	

@@ -17,6 +17,8 @@ public interface UserService {
 	
 	User findByEmail(String email);
 	
+	User findById(String id);
+	
 	User createUser(String firstName, String lastName, String email) throws IllegalArgumentException;
 	
 	void deleteUser(String id);
