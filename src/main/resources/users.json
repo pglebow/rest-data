@@ -1,0 +1,140 @@
+[
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u0F",
+		"lastName": "u0L",
+		"email": "u0@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u1F",
+		"lastName": "u1L",
+		"email": "u1@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u2F",
+		"lastName": "u2L",
+		"email": "u2@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u3F",
+		"lastName": "u3L",
+		"email": "u3@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u4F",
+		"lastName": "u4L",
+		"email": "u4@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u5F",
+		"lastName": "u5L",
+		"email": "u5@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u6F",
+		"lastName": "u6L",
+		"email": "u6@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u7F",
+		"lastName": "u7L",
+		"email": "u7@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u8F",
+		"lastName": "u8L",
+		"email": "u8@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u9F",
+		"lastName": "u9L",
+		"email": "u9@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u10F",
+		"lastName": "u10L",
+		"email": "u10@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u11F",
+		"lastName": "u11L",
+		"email": "u11@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u12F",
+		"lastName": "u12L",
+		"email": "u12@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u13F",
+		"lastName": "u13L",
+		"email": "u13@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u14F",
+		"lastName": "u14L",
+		"email": "u14@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u15F",
+		"lastName": "u15L",
+		"email": "u15@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u16F",
+		"lastName": "u16L",
+		"email": "u16@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u17F",
+		"lastName": "u17L",
+		"email": "u17@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u18F",
+		"lastName": "u18L",
+		"email": "u18@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u19F",
+		"lastName": "u19L",
+		"email": "u19@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u20F",
+		"lastName": "u20L",
+		"email": "u20@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u21F",
+		"lastName": "u21L",
+		"email": "u21@user.com"
+	},
+	{
+		"_class": "com.glebow.demo.domain.User",
+		"firstName": "u22F",
+		"lastName": "u22L",
+		"email": "u22@user.com"
+	}
+]
