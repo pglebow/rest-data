@@ -28,7 +28,7 @@ public class RestDataApplication {
 		return m;
 	}
 
-	@Bean
+	//@Bean
 	public Jackson2RepositoryPopulatorFactoryBean repositoryPopulator() {
 		Resource sourceData = new ClassPathResource("users.json");
 		Jackson2RepositoryPopulatorFactoryBean factory = new Jackson2RepositoryPopulatorFactoryBean();
