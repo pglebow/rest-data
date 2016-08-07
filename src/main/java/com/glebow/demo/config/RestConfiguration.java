@@ -24,16 +24,16 @@ public class RestConfiguration extends RepositoryRestMvcConfiguration {
 		config.exposeIdsFor(User.class);
 	}
 	
-    /**
-     * Added due to a bug in Spring Boot 1.4
-     * 
-     * {@link} https://github.com/spring-projects/spring-boot/issues/6529 
-     */
+	/**
+	 * Added due to a bug in Spring Boot 1.4
+	 * 
+	 * {@link} https://github.com/spring-projects/spring-boot/issues/6529
+	 */
 	@Override
-    @Bean
-    @Primary
-    public ObjectMapper objectMapper() {
-        return super.objectMapper();
-    }
+	@Bean
+	@Primary
+	public ObjectMapper objectMapper() {
+		return super.objectMapper();
+	}
 
 }

@@ -31,13 +31,11 @@ repositories {
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.boot:spring-boot-starter-data-rest')
-	compile("org.springframework.boot:spring-boot-starter-data-mongodb")
-	compile group: 'javax.persistence', name: 'persistence-api', version: '1.0.2'
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb:$springBootVersion")
+    compile("org.springframework.boot:spring-boot-starter-data-rest:$springBootVersion")
+    compile('org.springframework.data:spring-data-rest-webmvc')
 	compile("org.springframework.boot:spring-boot-starter-actuator")
 	
-	compile('org.springframework.data:spring-data-rest-hal-browser')
 	compile('org.springframework.boot:spring-boot-starter-cache')
 	
 	compile('org.projectlombok:lombok:1.16.8')
