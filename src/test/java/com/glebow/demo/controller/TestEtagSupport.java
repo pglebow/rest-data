@@ -5,8 +5,12 @@ package com.glebow.demo.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
+import org.assertj.core.util.Sets;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -99,7 +103,36 @@ public class TestEtagSupport {
 		log.info(uri.toString());
 
 		Traverson t = new Traverson(uri, MediaTypes.HAL_JSON);
-		traverse(t, Link.REL_FIRST);
+		traverse(t, Link.REL_FIRST, null);
+	}
+	
+	@Test
+	public void testCacheByEtags() throws URISyntaxException {
+		Set<User> users = Sets.newHashSet();
+		HashMap<String, String> cache = new HashMap<String, String>();
+		Traverson t = new Traverson(new URI("http://localhost:" + port + "/users"), MediaTypes.HAL_JSON);
+		traverse(t, Link.REL_FIRST, users);
+		Assert.assertFalse(users.isEmpty());
+		
+		// Populate the cache
+		for (User u : users ) {
+			Assert.assertNotNull(u.getId());
+			ResponseEntity<User> r1 = this.restTemplate.getForEntity("/users/" + u.getId(), User.class);
+			Assert.assertTrue(r1.hasBody());
+			Assert.assertEquals(HttpStatus.OK, r1.getStatusCode());
+			String eTag = r1.getHeaders().getETag();
+			Assert.assertNotNull(eTag, "ETag must not be null");
+			cache.put(u.getId(), eTag);			
+		}
+		
+		for (Map.Entry<String, String> e : cache.entrySet()) {
+			HttpHeaders headers = new HttpHeaders();
+			headers.setIfNoneMatch("\"" + e.getValue() + "\"");
+			ResponseEntity<User> r2 = this.restTemplate.exchange(new URI("http://localhost:" + port + "/users" + e.getKey()), HttpMethod.GET, new HttpEntity<>(headers),
+					User.class);
+			Assert.assertFalse(r2.hasBody());
+			Assert.assertEquals(HttpStatus.NOT_MODIFIED, r2.getStatusCode());
+		}
 	}
 
 	/**
@@ -108,18 +141,21 @@ public class TestEtagSupport {
 	 * @param t
 	 * @param linkRel
 	 */
-	private void traverse(final Traverson t, String linkRel) {
+	private void traverse(final Traverson t, String linkRel, Set<User> users) {
 		log.info("Traversing " + t.toString() + " via " + linkRel);
 		PagedResources<Resource<User>> resources = t.follow(linkRel)
 				.toObject(new TypeReferences.PagedResourcesType<Resource<User>>() {
 				});
 		Assert.assertNotNull(resources);
 		for (Resource<User> resource : resources) {
-			final User customer = resource.getContent();
+			final User customer = resource.getContent();			
 			log.info(customer.toString());
+			if ( users != null ) {
+				users.add(customer);
+			}
 		}
 		if (resources.hasLink(Link.REL_NEXT)) {
-			traverse(t, resources.getNextLink().getRel());
+			traverse(t, resources.getNextLink().getRel(), users);
 		}
 	}
 
