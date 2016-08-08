@@ -40,6 +40,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-cache')
 	
 	compile('org.projectlombok:lombok:1.16.8')
+	compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.7'	
 	
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('junit:junit')
