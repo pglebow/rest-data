@@ -3,14 +3,15 @@
  */
 package com.glebow.demo.controller;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
-import org.assertj.core.util.Sets;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +35,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.glebow.demo.domain.User;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -50,22 +54,6 @@ public class TestEtagSupport {
 
 	@Value("${local.server.port}")
 	int port;
-
-	@Test
-	public void test() throws URISyntaxException {
-		ResponseEntity<User> r1 = this.restTemplate.getForEntity("/users/57a7a634de62000b5080f8e1", User.class);
-		Assert.assertTrue(r1.hasBody());
-		Assert.assertEquals(HttpStatus.OK, r1.getStatusCode());
-		Assert.assertNotNull(r1.getHeaders().getETag(), "ETag must not be null");
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.setIfNoneMatch("\"0\"");
-
-		ResponseEntity<User> r2 = this.restTemplate.exchange("/users/57a7a634de62000b5080f8e1", HttpMethod.GET,
-				new HttpEntity<>(headers), User.class);
-		Assert.assertFalse(r2.hasBody());
-		Assert.assertEquals(HttpStatus.NOT_MODIFIED, r2.getStatusCode());
-	}
 
 	@Test
 	public void testEtagsWithTraverson() throws URISyntaxException {
@@ -98,7 +86,7 @@ public class TestEtagSupport {
 	}
 
 	@Test
-	public void testResourcesWithTraverson() throws URISyntaxException {
+	public void testResourcesWithTraverson() throws URISyntaxException, MalformedURLException {
 		URI uri = new URI("http://localhost:" + port + "/users");
 		log.info(uri.toString());
 
@@ -107,32 +95,43 @@ public class TestEtagSupport {
 	}
 	
 	@Test
-	public void testCacheByEtags() throws URISyntaxException {
-		Set<User> users = Sets.newHashSet();
-		HashMap<String, String> cache = new HashMap<String, String>();
+	public void testCacheByEtags() throws URISyntaxException, MalformedURLException {
+		HashMap<String, CacheEntry<String, String, User>> cache = new HashMap<String, CacheEntry<String, String, User>>();
 		Traverson t = new Traverson(new URI("http://localhost:" + port + "/users"), MediaTypes.HAL_JSON);
-		traverse(t, Link.REL_FIRST, users);
-		Assert.assertFalse(users.isEmpty());
+		traverse(t, Link.REL_FIRST, cache);
+		Assert.assertFalse(cache.isEmpty());
 		
-		// Populate the cache
-		for (User u : users ) {
-			Assert.assertNotNull(u.getId());
-			ResponseEntity<User> r1 = this.restTemplate.getForEntity("/users/" + u.getId(), User.class);
+		// Populate the cache by calling each ID and saving the Etag to our cache
+		for (Map.Entry<String, CacheEntry<String, String, User>> u : cache.entrySet() ) {
+			Assert.assertNotNull(u.getKey());
+			CacheEntry<String, String, User> cacheEntry = u.getValue();
+			
+			ResponseEntity<User> r1 = this.restTemplate.getForEntity("/users/" + u.getKey(), User.class);
 			Assert.assertTrue(r1.hasBody());
 			Assert.assertEquals(HttpStatus.OK, r1.getStatusCode());
 			String eTag = r1.getHeaders().getETag();
 			Assert.assertNotNull(eTag, "ETag must not be null");
-			cache.put(u.getId(), eTag);			
+			cacheEntry.setETag(eTag);			
 		}
 		
-		for (Map.Entry<String, String> e : cache.entrySet()) {
+		// Re-retrieve each user object, checking to see that we get 304/not modified for each of them
+		for (Map.Entry<String, CacheEntry<String, String, User>> e : cache.entrySet()) {
 			HttpHeaders headers = new HttpHeaders();
-			headers.setIfNoneMatch("\"" + e.getValue() + "\"");
-			ResponseEntity<User> r2 = this.restTemplate.exchange(new URI("http://localhost:" + port + "/users" + e.getKey()), HttpMethod.GET, new HttpEntity<>(headers),
+			headers.setIfNoneMatch(e.getValue().getETag());
+			ResponseEntity<User> r2 = this.restTemplate.exchange(new URI("http://localhost:" + port + "/users/" + e.getKey()), HttpMethod.GET, new HttpEntity<>(headers),
 					User.class);
 			Assert.assertFalse(r2.hasBody());
 			Assert.assertEquals(HttpStatus.NOT_MODIFIED, r2.getStatusCode());
 		}
+	}
+	
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public class CacheEntry<KeyType, ETagType, ValueType> {
+		KeyType key;
+		ETagType eTag;
+		ValueType value;
 	}
 
 	/**
@@ -140,8 +139,10 @@ public class TestEtagSupport {
 	 * 
 	 * @param t
 	 * @param linkRel
+	 * @throws URISyntaxException 
+	 * @throws MalformedURLException 
 	 */
-	private void traverse(final Traverson t, String linkRel, Set<User> users) {
+	private void traverse(final Traverson t, String linkRel, HashMap<String, CacheEntry<String, String, User>> cache) throws URISyntaxException, MalformedURLException {
 		log.info("Traversing " + t.toString() + " via " + linkRel);
 		PagedResources<Resource<User>> resources = t.follow(linkRel)
 				.toObject(new TypeReferences.PagedResourcesType<Resource<User>>() {
@@ -150,12 +151,16 @@ public class TestEtagSupport {
 		for (Resource<User> resource : resources) {
 			final User customer = resource.getContent();			
 			log.info(customer.toString());
-			if ( users != null ) {
-				users.add(customer);
+			if ( cache != null ) {
+				URI uri = new URI(resource.getId().getHref());
+				URL url = uri.toURL();
+				File f = new File(url.getFile());
+				String id = f.getName();
+				cache.put(id, new CacheEntry<String, String, User>(id, null, customer));
 			}
 		}
 		if (resources.hasLink(Link.REL_NEXT)) {
-			traverse(t, resources.getNextLink().getRel(), users);
+			traverse(t, resources.getNextLink().getRel(), cache);
 		}
 	}
 
