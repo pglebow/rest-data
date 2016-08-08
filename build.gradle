@@ -35,6 +35,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-rest:$springBootVersion")
     compile('org.springframework.data:spring-data-rest-webmvc')
 	compile("org.springframework.boot:spring-boot-starter-actuator")
+	compile("org.springframework.boot:spring-boot-starter-hateoas")
 	
 	compile('org.springframework.boot:spring-boot-starter-cache')
 	
