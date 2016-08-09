@@ -1,7 +1,7 @@
 # Table of Contents
 1. [rest-data](#rest-data)
 2. [ETags](#etags)
-3. [GettingStarted](#getting-started)
+3. [Getting Started](#getting-started)
 4. [References](#references)
  
 
