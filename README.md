@@ -24,7 +24,7 @@ to
 You will also need to provide any configuration necessary to interact with your DB.  See the Spring Data REST documentation for instructions.
 
 ## ETags
-![ETags](images/etags.png?raw=true "Etags")
+![](images/etags.png?raw=true "Image credit: http://thespringthing.blogspot.com/2015/06/etags-and-browser-cache.html")
 
 ## References
 | Description | Link |
@@ -32,3 +32,4 @@ You will also need to provide any configuration necessary to interact with your 
 | Spring Data REST Reference Page | http://projects.spring.io/spring-data-rest/ |
 | RFC 7232: Conditional Requests (ETags) | https://tools.ietf.org/html/rfc7232 |
 | de.flapdoodle.embed.mongo Embedded MongoDB | https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo |
+| ETags and browser cache | http://thespringthing.blogspot.com/2015/06/etags-and-browser-cache.html |
