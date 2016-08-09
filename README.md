@@ -1,5 +1,44 @@
+# Table of Contents
+1. [rest-data](#rest-data)
+2. [ETags](#etags)
+3. [GettingStarted](#gettingstarted)
+4. [References](#references)
+ 
+
 # rest-data
 This is a small vignette that demonstrates how to expose entities using Spring Data REST that use entity tags (ETags) for caching.
+
+## ETags
+Entity Tags (ETags) are primarily used to implement caching of resources across the Internet.  From [RFC 7232](https://tools.ietf.org/html/rfc7232):
+
+> Conditional requests are HTTP requests [RFC7231] that include one or
+   more header fields indicating a precondition to be tested before
+   applying the method semantics to the target resource.  This document
+   defines the HTTP/1.1 conditional request mechanisms in terms of the
+   architecture, syntax notation, and conformance criteria defined in
+   [RFC7230].
+   
+>   Conditional GET requests are the most efficient mechanism for HTTP
+   cache updates [RFC7234].  Conditionals can also be applied to
+   state-changing methods, such as PUT and DELETE, to prevent the "lost
+   update" problem: one client accidentally overwriting the work of
+   another client that has been acting in parallel.
+
+>   Conditional request preconditions are based on the state of the
+   target resource as a whole (its current value set) or the state as
+   observed in a previously obtained representation (one value in that
+   set).  A resource might have multiple current representations, each
+   with its own observable state.  The conditional request mechanisms
+   assume that the mapping of requests to a "selected representation"
+   (Section 3 of [RFC7231]) will be consistent over time if the server
+   intends to take advantage of conditionals.  Regardless, if the
+   mapping is inconsistent and the server is unable to select the
+   appropriate representation, then no harm will result when the
+   precondition evaluates to false.
+
+The image below depicts the requests, headers and actions that are taken when ETags are used.
+
+![](images/etags.png?raw=true "Image credit: http://thespringthing.blogspot.com/2015/06/etags-and-browser-cache.html")
 
 ## Getting Started
 
@@ -22,9 +61,6 @@ to
 > testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo:1.50.3')
 
 You will also need to provide any configuration necessary to interact with your DB.  See the Spring Data REST documentation for instructions.
-
-## ETags
-![](images/etags.png?raw=true "Image credit: http://thespringthing.blogspot.com/2015/06/etags-and-browser-cache.html")
 
 ## References
 | Description | Link |
