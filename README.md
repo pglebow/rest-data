@@ -68,11 +68,31 @@ You will also need to provide any configuration necessary to interact with your 
 
 > [http://localhost:8080/users](http://localhost:8080/users)
 
-Once you find a user, follow the HATEOS links and inspect the headers.  You'll find an ETag header.  If you add this header
+### Add a User
+POST this content with the header `"Content-type" : "application/json"` 
+
+> { "firstName" : "Phil", "lastName" : "Glebow", "email" : "p@g.com" }
+
+to this endpoint
+
+> [http://localhost:8080/users](http://localhost:8080/users)
+
+
+### Search for a user
+Search for the user that you've added by following this link
+
+> [http://localhost:8080/users/search/findByLastName?lastName=Glebow](http://localhost:8080/users/search/findByLastName?lastName=Glebow)
+
+### Get the user you found
+Follow the self/href link, e.g., 
+
+> [http://localhost:8080/users/57aa431d06271c4a6c763069](http://localhost:8080/users/57aa431d06271c4a6c763069)
+
+to load the user.  The status code will `200` and the user will be in the body of the response.  If you inspect the headers, you'll find an ETag header.  If you add this header
 
 > If-None-Match: "0"
 
-and reload the entity, you'll get a 304/Not modified response.  This indicates to the caller that the entity has not changed.
+and reload the entity, you'll get a status code of `304/Not modified` and the body of the response will be empty.  This indicates to the caller that the entity has not changed.  The network will not have to transport the body which will improve the performance characteristics of the system.
 
 ## References
 | Description | Link |
