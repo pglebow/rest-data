@@ -2,7 +2,8 @@
 1. [rest-data](#rest-data)
 2. [ETags](#etags)
 3. [Getting Started](#getting-started)
-4. [References](#references)
+4. [Things to Try](#things-to-try)
+5. [References](#references)
  
 
 # rest-data
@@ -61,6 +62,17 @@ to
 > testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo:1.50.3')
 
 You will also need to provide any configuration necessary to interact with your DB.  See the Spring Data REST documentation for instructions.
+
+## Things to Try
+### List all Users
+
+> [http://localhost:8080/users](http://localhost:8080/users)
+
+Once you find a user, follow the HATEOS links and inspect the headers.  You'll find an ETag header.  If you add this header
+
+> If-None-Match: "0"
+
+and reload the entity, you'll get a 304/Not modified response.  This indicates to the caller that the entity has not changed.
 
 ## References
 | Description | Link |
