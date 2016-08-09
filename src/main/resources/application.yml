@@ -3,13 +3,6 @@ spring:
     name: rest-data
   profiles:
     active: native
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: users
-      username: zzuser
-      password: yz3QyDZpcu3fEz
 endpoints:
   restart:
     enabled: true

@@ -4,6 +4,7 @@
 package com.glebow.demo.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -13,6 +14,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.glebow.demo.domain.User;
+import com.glebow.demo.repository.UserRepository;
+import com.glebow.demo.util.Util;
+import com.google.common.io.Resources;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -54,6 +59,16 @@ public class TestEtagSupport {
 
 	@Value("${local.server.port}")
 	int port;
+
+	@Autowired
+	private UserRepository r;
+
+	@Before
+	public void insertData() throws IOException {
+		if (r.count() == 0) {
+			r.save(Util.parseJsonIntoUsers(Resources.getResource("users.json")));
+		}
+	}
 
 	@Test
 	public void testEtagsWithTraverson() throws URISyntaxException {
@@ -93,38 +108,41 @@ public class TestEtagSupport {
 		Traverson t = new Traverson(uri, MediaTypes.HAL_JSON);
 		traverse(t, Link.REL_FIRST, null);
 	}
-	
+
 	@Test
 	public void testCacheByEtags() throws URISyntaxException, MalformedURLException {
 		HashMap<String, CacheEntry<String, String, User>> cache = new HashMap<String, CacheEntry<String, String, User>>();
 		Traverson t = new Traverson(new URI("http://localhost:" + port + "/users"), MediaTypes.HAL_JSON);
 		traverse(t, Link.REL_FIRST, cache);
 		Assert.assertFalse(cache.isEmpty());
-		
-		// Populate the cache by calling each ID and saving the Etag to our cache
-		for (Map.Entry<String, CacheEntry<String, String, User>> u : cache.entrySet() ) {
+
+		// Populate the cache by calling each ID and saving the Etag to our
+		// cache
+		for (Map.Entry<String, CacheEntry<String, String, User>> u : cache.entrySet()) {
 			Assert.assertNotNull(u.getKey());
 			CacheEntry<String, String, User> cacheEntry = u.getValue();
-			
+
 			ResponseEntity<User> r1 = this.restTemplate.getForEntity("/users/" + u.getKey(), User.class);
 			Assert.assertTrue(r1.hasBody());
 			Assert.assertEquals(HttpStatus.OK, r1.getStatusCode());
 			String eTag = r1.getHeaders().getETag();
 			Assert.assertNotNull(eTag, "ETag must not be null");
-			cacheEntry.setETag(eTag);			
+			cacheEntry.setETag(eTag);
 		}
-		
-		// Re-retrieve each user object, checking to see that we get 304/not modified for each of them
+
+		// Re-retrieve each user object, checking to see that we get 304/not
+		// modified for each of them
 		for (Map.Entry<String, CacheEntry<String, String, User>> e : cache.entrySet()) {
 			HttpHeaders headers = new HttpHeaders();
 			headers.setIfNoneMatch(e.getValue().getETag());
-			ResponseEntity<User> r2 = this.restTemplate.exchange(new URI("http://localhost:" + port + "/users/" + e.getKey()), HttpMethod.GET, new HttpEntity<>(headers),
-					User.class);
+			ResponseEntity<User> r2 = this.restTemplate.exchange(
+					new URI("http://localhost:" + port + "/users/" + e.getKey()), HttpMethod.GET,
+					new HttpEntity<>(headers), User.class);
 			Assert.assertFalse(r2.hasBody());
 			Assert.assertEquals(HttpStatus.NOT_MODIFIED, r2.getStatusCode());
 		}
 	}
-	
+
 	@Data
 	@AllArgsConstructor
 	@NoArgsConstructor
@@ -139,19 +157,20 @@ public class TestEtagSupport {
 	 * 
 	 * @param t
 	 * @param linkRel
-	 * @throws URISyntaxException 
-	 * @throws MalformedURLException 
+	 * @throws URISyntaxException
+	 * @throws MalformedURLException
 	 */
-	private void traverse(final Traverson t, String linkRel, HashMap<String, CacheEntry<String, String, User>> cache) throws URISyntaxException, MalformedURLException {
+	private void traverse(final Traverson t, String linkRel, HashMap<String, CacheEntry<String, String, User>> cache)
+			throws URISyntaxException, MalformedURLException {
 		log.info("Traversing " + t.toString() + " via " + linkRel);
 		PagedResources<Resource<User>> resources = t.follow(linkRel)
 				.toObject(new TypeReferences.PagedResourcesType<Resource<User>>() {
 				});
 		Assert.assertNotNull(resources);
 		for (Resource<User> resource : resources) {
-			final User customer = resource.getContent();			
+			final User customer = resource.getContent();
 			log.info(customer.toString());
-			if ( cache != null ) {
+			if (cache != null) {
 				URI uri = new URI(resource.getId().getHref());
 				URL url = uri.toURL();
 				File f = new File(url.getFile());
