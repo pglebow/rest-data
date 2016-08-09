@@ -24,7 +24,7 @@ to
 You will also need to provide any configuration necessary to interact with your DB.  See the Spring Data REST documentation for instructions.
 
 ## ETags
-!(images/etags.png)
+![ETags](https://github.com/pglebow/rest-data/images/etags.png "Etags")
 
 ## References
 | Description | Link |
