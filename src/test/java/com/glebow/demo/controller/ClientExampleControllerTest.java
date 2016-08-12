@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -65,13 +66,24 @@ public class ClientExampleControllerTest {
             Assert.assertNotNull(u);
             Assert.assertNotNull(u.getId());
 
-            ResponseEntity<User> userFromClient = restTemplate.getForEntity("/client?id={id}&version={version}", User.class, u.getId(), 0);
+            ResponseEntity<User> userFromClient = restTemplate.getForEntity("/client?id={id}&version={version}",
+                    User.class, u.getId(), null);
             Assert.assertNotNull(userFromClient);
-            Assert.assertTrue(userFromClient.getStatusCode().is2xxSuccessful());
+            Assert.assertEquals(HttpStatus.OK, userFromClient.getStatusCode());
+            Assert.assertNotNull(userFromClient.getHeaders().getETag());
+            
+            String eTag = userFromClient.getHeaders().getETag();
+
+            // Note: We're not expecting the client endpoint to cache the data for this demo - look at the log to see
+            // the flow as the client endpoint is making use of ETags when it gets data from /users.
+            ResponseEntity<User> cachedUserFromClient = restTemplate.getForEntity("/client?id={id}&version={version}",
+                    User.class, u.getId(), eTag);
+            Assert.assertNotNull(cachedUserFromClient);
+            Assert.assertEquals(HttpStatus.OK, cachedUserFromClient.getStatusCode());
+
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
-    }
-
+    }    
 }

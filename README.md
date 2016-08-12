@@ -48,6 +48,8 @@ To begin, open and run the test [TestEtagSupport](src/test/java/com/glebow/demo/
 
 This project uses the [Embedded Mongo Database](https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo) and the first time that you run it, it will download the appropriate binary.  After that, things will be much faster.
 
+Once you've run the first test, [ClientExampleControllerTest](src/test/java/com/glebow/demo/controller/ClientExampleControllerTest.java) demonstrates how to use ETags if you're calling a REST endpoint that supports them.
+
 ### Run as a Spring Boot Application
 To run this from the command line, do
 
@@ -93,6 +95,9 @@ to load the user.  The status code will `200` and the user will be in the body o
 > If-None-Match: "0"
 
 and reload the entity, you'll get a status code of `304/Not modified` and the body of the response will be empty.  This indicates to the caller that the entity has not changed.  The network will not have to transport the body which will improve the performance characteristics of the system.
+
+### Run the [ClientExampleControllerTest](src/test/java/com/glebow/demo/controller/ClientExampleControllerTest.java)
+Look at the messages in the log; they describe the actions taken when attempting to retrieve a user.
 
 ## References
 | Description | Link |

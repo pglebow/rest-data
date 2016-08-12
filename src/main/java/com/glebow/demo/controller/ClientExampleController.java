@@ -83,6 +83,8 @@ public class ClientExampleController {
                         log.error("Error getting " + id + " and version " + version + ": " + e.getMessage(), e);
                     }
 
+                } else {
+                    log.info("Found id " + id + " in the cache (content=" + retVal.toString() + ")");
                 }
             }
         }
@@ -109,8 +111,8 @@ public class ClientExampleController {
 
         if (uri != null) {
             RequestEntity<Void> entity = null;
-            if (version != null) {
-                entity = RequestEntity.get(uri).accept(MediaType.APPLICATION_JSON).ifNoneMatch("\"" + version + "\"").build();
+            if (version != null && !version.isEmpty()) {
+                entity = RequestEntity.get(uri).accept(MediaType.APPLICATION_JSON).ifNoneMatch("\"" + version.replaceAll("\"", "") + "\"").build();
             } else {
                 entity = RequestEntity.get(uri).accept(MediaType.APPLICATION_JSON).build();
             }
