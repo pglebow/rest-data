@@ -1,7 +1,9 @@
 package com.glebow.demo;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
@@ -13,6 +15,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories
 @EnableMongoAuditing
 @EnableCaching
+@EnableAutoConfiguration(exclude = { EmbeddedMongoAutoConfiguration.class })
 public class RestDataApplication {
 
 	public static void main(String[] args) {

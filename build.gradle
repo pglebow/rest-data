@@ -1,6 +1,7 @@
 buildscript {
 	ext {
 		springBootVersion = '1.4.0.RELEASE'
+		springCloudVersion = '1.2.3.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -37,7 +38,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator")
 	compile("org.springframework.boot:spring-boot-starter-hateoas")	
 	compile('org.springframework.boot:spring-boot-starter-cache')
-	compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo:1.50.3')
+	compile("org.springframework.cloud:spring-cloud-spring-service-connector:$springCloudVersion")
+    compile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudVersion")
+	
 	
 	compile('org.projectlombok:lombok:1.16.8')
 	compile('ch.qos.logback:logback-classic:1.1.7')	
@@ -46,6 +49,7 @@ dependencies {
 		
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('junit:junit')
+	testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo:1.50.3')
 }
 
 
