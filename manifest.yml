@@ -1,0 +1,4 @@
+---
+applications:
+- name: rest-data
+  memory: 512M
