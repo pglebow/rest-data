@@ -1,4 +1,11 @@
 ---
 applications:
 - name: rest-data
+  buildpack: https://github.com/cloudfoundry/java-buildpack
+  path: build/libs/rest-data-0.0.1-SNAPSHOT.jar
+  instances: 1
   memory: 512M
+  env:
+   JBP_CONFIG_OPENJDK: 'version: 1.8.+'
+  services:
+    - mongodb
