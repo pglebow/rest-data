@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/pglebow/rest-data.svg?branch=master)](https://travis-ci.org/pglebow/rest-data)
+
 # Table of Contents
 1. [rest-data](#rest-data)
 2. [ETags](#etags)
