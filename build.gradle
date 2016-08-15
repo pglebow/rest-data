@@ -40,7 +40,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-cache')
 	compile("org.springframework.cloud:spring-cloud-spring-service-connector:$springCloudVersion")
     compile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudVersion")
-	
+	compile("org.springframework.boot:spring-boot-starter-thymeleaf")
 	
 	compile('org.projectlombok:lombok:1.16.8')
 	compile('ch.qos.logback:logback-classic:1.1.7')	
