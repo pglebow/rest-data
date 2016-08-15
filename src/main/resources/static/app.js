@@ -31,7 +31,7 @@ class App extends React.Component {
 class UserList extends React.Component{
 	render() {
 		var users = this.props.users.map(user =>
-			<User key={users._links.self.href} user={user}/>
+			<User key={user._links.self.href} user={user}/>
 		);
 		return (
 			<table>
