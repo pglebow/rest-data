@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/pglebow/rest-data.svg?branch=master)]
-
 # Table of Contents
 1. [rest-data](#rest-data)
 2. [ETags](#etags)
@@ -9,6 +7,8 @@
  
 
 # rest-data
+![Build Status](https://travis-ci.org/pglebow/rest-data.svg?branch=master)
+
 This is a small vignette that demonstrates how to expose entities using Spring Data REST that use entity tags (ETags) for caching.
 
 ## ETags
