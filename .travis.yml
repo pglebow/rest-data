@@ -1,8 +1,18 @@
 language: java
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+deploy:
+  provider: cloudfoundry
+  api: https://api.run.pivotal.io
+  username: philip_glebow@gap.com
+  password:
+    secure: YdzrxsAWdU3XomU8HX5F4r37ujqOSp0gpAbz9Yod1pTSF3uzTY8n6ECeSDNMMyKG1ILB7gD4QLr1weSmoOt8pVaFul/N3aBYb2bWvM3fA4D5lUbGdo+HKweMlLI1Zd6cdSSboMP1QGeAfbE8nvTPT6jHmPyQnNwoq225Qb265hPgut6RVi/h3PFPRMEl80ak9c0NP7MxkkiXExbwNWIg8KLVP+6SXeVGsUEpn+FlQJV3rJg4+8/8Ae1pcaIpW4cWUpYw+q6zvrYuy5kCu8aIwB2nM7/rIeHts6pYx3zbTnvEuZv8NTipLd9qml62PA7Ztdgs07BlOoaUVE5zjmKh7lvzQnkQnzByHnwA9hts1E17/RfSFZ6J9v6MtrFlsClwQQHtTsc/c268m7a4ci2jKEDa099fSW9bnN+FL0b8HH73HhLrImwqs4JjxIk7bYgUjNuqr4b/3Vbg3fh1K9uwDZF0OYhcYqYmwpKhFN+YtJqdLxYj6i4nHya8BFPnAHfakLqOxbbM6UtoUgELQTwjApetdEEg81Nni45pACk5t2kglRt/c10QkqANJnSy34DGEYZHOQ9CJacZRCC8W5LefDpBQvu4YE4xJgzsOC7+EQ2gZZ9BUPe0CnzVAV5Ol67CKm1Oj/+WnnsJnhx0F4iBxlOHk2PW8lsGsUGobZwwZOw=
+  organization: pglebow
+  space: development
+  on:
+    repo: pglebow/rest-data
