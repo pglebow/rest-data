@@ -5,10 +5,8 @@ package com.glebow.demo.util;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.Set;
 
-import org.bson.Document;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -29,20 +27,20 @@ public class TestUtil {
     /**
      * Test method for {@link com.glebow.demo.util.Util#parseJson(org.springframework.core.io.Resource)}.
      */
-    @Test
-    public void testParseJson() {
-        try {
-            URL r = Resources.getResource("users.json");
-            List<Document> l = Util.parseJson(r);
-            Assert.assertNotNull(l);
-            for (Document d : l) {
-                log.info(d.toJson());
-            }
-        } catch (IOException e) {
-            log.error(e.getMessage());
-            Assert.fail(e.getMessage());
-        }
-    }
+//    @Test
+//    public void testParseJson() {
+//        try {
+//            URL r = Resources.getResource("users.json");
+//            List<Document> l = Util.parseJson(r);
+//            Assert.assertNotNull(l);
+//            for (Document d : l) {
+//                log.info(d.toJson());
+//            }
+//        } catch (IOException e) {
+//            log.error(e.getMessage());
+//            Assert.fail(e.getMessage());
+//        }
+//    }
 
     @Test
     public void testUser() {

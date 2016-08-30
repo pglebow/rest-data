@@ -3,9 +3,10 @@
  */
 package com.glebow.demo.config;
 
+import javax.sql.DataSource;
+
 import org.springframework.cloud.config.java.AbstractCloudConfig;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.mongodb.MongoDbFactory;
 
 /**
  * @author pglebow
@@ -14,7 +15,7 @@ import org.springframework.data.mongodb.MongoDbFactory;
 public class CloudConfig extends AbstractCloudConfig {
 	
 	@Bean
-	public MongoDbFactory documentMongoDbFactory() {
-		return connectionFactory().mongoDbFactory();
+	public DataSource dataSourceFactory() {
+		return connectionFactory().dataSource();
 	}
 }

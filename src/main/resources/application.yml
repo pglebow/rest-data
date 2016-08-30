@@ -3,6 +3,10 @@ spring:
     name: rest-data
   profiles:
     active: native
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
 endpoints:
   restart:
     enabled: true

@@ -8,12 +8,9 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.mongodb.config.EnableMongoAuditing;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableMongoRepositories
-@EnableMongoAuditing
 @EnableCaching
 @EnableAutoConfiguration(exclude = { EmbeddedMongoAutoConfiguration.class })
 public class RestDataApplication {

@@ -5,16 +5,12 @@ package com.glebow.demo.util;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.bson.Document;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,21 +29,21 @@ public class Util {
 	 * @param r
 	 * @throws IOException
 	 */
-	public static List<Document> parseJson(URL url) throws IOException {
-		List<Document> retVal = null;
-		if ( url != null ) {
-			String jsonText = Resources.toString(url, Charsets.UTF_8);
-			JSONArray array = new JSONArray(jsonText);
-
-			retVal = new ArrayList<Document>(array.length());
-			for ( int i = 0; i < array.length(); i++ ) {
-				JSONObject o = array.getJSONObject(i);
-				Document d = Document.parse(o.toString());
-				retVal.add(d);
-			}			
-		}
-		return Optional.ofNullable(retVal).orElse(Collections.emptyList());
-	}
+//	public static List<Document> parseJson(URL url) throws IOException {
+//		List<Document> retVal = null;
+//		if ( url != null ) {
+//			String jsonText = Resources.toString(url, Charsets.UTF_8);
+//			JSONArray array = new JSONArray(jsonText);
+//
+//			retVal = new ArrayList<Document>(array.length());
+//			for ( int i = 0; i < array.length(); i++ ) {
+//				JSONObject o = array.getJSONObject(i);
+//				Document d = Document.parse(o.toString());
+//				retVal.add(d);
+//			}			
+//		}
+//		return Optional.ofNullable(retVal).orElse(Collections.emptyList());
+//	}
 	
 	/**
 	 * Json Document parser

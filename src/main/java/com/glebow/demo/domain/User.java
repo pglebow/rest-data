@@ -5,35 +5,38 @@ package com.glebow.demo.domain;
 
 import java.util.Date;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Version;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Version;
 
+import org.springframework.data.annotation.LastModifiedDate;
+
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 
 /**
  * @author pglebow
  *
  */
 @Data
-@Document
+@Entity(name="User")
 public class User {
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Setter(AccessLevel.NONE)
+	private Long id;
 
 	@Version
 	private Long version;
 
-	@Indexed
 	private String firstName;
 
-	@Indexed
 	private String lastName;
 
-	@Indexed(unique = true)
 	private String email;
 
 	@LastModifiedDate
