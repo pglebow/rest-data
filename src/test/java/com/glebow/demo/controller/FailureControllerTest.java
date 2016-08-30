@@ -12,8 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@Slf4j
 @ActiveProfiles("test")
 public class FailureControllerTest {
 
@@ -25,4 +28,18 @@ public class FailureControllerTest {
         ResponseEntity<?> r = restTemplate.getForEntity("/fail/notFound", Object.class);
         Assert.assertEquals(HttpStatus.NOT_FOUND, r.getStatusCode());
     }
+    
+    @Test
+    public void testCount() {
+        for ( int i = 1; i <= 10; i++ ) {
+            ResponseEntity<String> r = restTemplate.getForEntity("/fail/count", String.class);
+            if ( i % 3 == 0 ) {
+                Assert.assertEquals(HttpStatus.NOT_FOUND, r.getStatusCode());                
+            } else {
+                Assert.assertEquals(HttpStatus.OK, r.getStatusCode());
+                log.info(r.getBody());
+            }            
+        }
+    }
+
 }
