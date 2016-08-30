@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.glebow.demo.exception.InternalServerError;
 import com.glebow.demo.exception.NotFoundCustomException;
 
 /**
@@ -26,6 +27,11 @@ public class FailureController {
     @RequestMapping("/notFound")
     public ResponseEntity<?> notFound() {
         throw new NotFoundCustomException();
+    }
+    
+    @RequestMapping("/internalError")
+    public ResponseEntity<?> internalError() {
+        throw new InternalServerError();
     }
     
     @RequestMapping("/count")

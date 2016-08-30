@@ -30,6 +30,12 @@ public class FailureControllerTest {
     }
     
     @Test
+    public void testInternalServerError() {
+        ResponseEntity<?> r = restTemplate.getForEntity("/fail/internalError", Object.class);
+        Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, r.getStatusCode());
+    }
+    
+    @Test
     public void testCount() {
         for ( int i = 1; i <= 10; i++ ) {
             ResponseEntity<String> r = restTemplate.getForEntity("/fail/count", String.class);
