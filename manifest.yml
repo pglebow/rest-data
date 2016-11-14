@@ -9,4 +9,3 @@ applications:
    JBP_CONFIG_OPENJDK: 'version: 1.8.+'
   services:
     - mysql
-    - new-relic

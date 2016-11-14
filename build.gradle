@@ -12,7 +12,8 @@ buildscript {
         }
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")	
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath('se.transmode.gradle:gradle-docker:1.2')
 	}
 }
 
@@ -22,8 +23,9 @@ plugins {
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'spring-boot'
+apply plugin: 'org.springframework.boot'
 apply plugin: 'net.eikehirsch.react'
+apply plugin: 'docker'
 
 jar {
 	baseName = 'rest-data'
@@ -61,6 +63,17 @@ dependencies {
 //	testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo:1.50.3')
 }
 
+task buildDocker(type: Docker, dependsOn: build) {
+  push = true
+  applicationName = jar.baseName
+  dockerfile = file('Dockerfile')
+  doFirst {
+    copy {
+      from jar
+      into stageDir
+    }
+  }
+}
 
 eclipse {
 	classpath {
