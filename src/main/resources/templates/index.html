@@ -24,7 +24,24 @@
 		</div>
 	</div>
 	<div class="container" ng-show="home.authenticated">
-		Logged in as: <span ng-bind="home.user"></span>
+		<div>
+			Logged in as: <span ng-bind="home.user"></span>
+		</div>
+		<div>
+			Authorities:
+			<ul>
+				<ul>
+					<li ng-repeat="a in home.authorities">{{a}}</li>
+				</ul>
+			</ul>
+		</div>
+		<div>
+			Details:
+			<ul>
+				<li ng-repeat='(key, value) in home.details'><span>
+						{{key}} = {{value}}</span></li>
+			</ul>
+		</div>
 		<div>
 			<button ng-click="home.logout()" class="btn btn-primary">Logout</button>
 		</div>
@@ -39,10 +56,14 @@
 						}).controller("home", function($http, $location) {
 					var self = this;
 					$http.get("/auth").success(function(data) {
+						self.details = data.userAuthentication.details;
+						self.authorities = data.userAuthentication.authorities;
 						self.user = data.userAuthentication.details.name;
 						self.authenticated = true;
 					}).error(function() {
+						self.details = "N/A";
 						self.user = "N/A";
+						self.authorities = "N/A";
 						self.authenticated = false;
 					});
 					self.logout = function() {

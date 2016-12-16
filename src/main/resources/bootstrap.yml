@@ -1,0 +1,4 @@
+spring:
+  cloud:
+    config:
+      uri: ${SPRING_CLOUD_CONFIG_URI:https://rest-data-config-server.apps.cfdev.phx.gaptech.com}

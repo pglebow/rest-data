@@ -18,12 +18,14 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -31,11 +33,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.CompositeFilter;
 
+import com.glebow.demo.util.Util;
+
+import lombok.extern.slf4j.Slf4j;
+
 @SpringBootApplication
 @EnableCaching
 @EnableAutoConfiguration(exclude = { EmbeddedMongoAutoConfiguration.class })
 @EnableOAuth2Client
+@EnableAuthorizationServer
 @RestController
+@EnableGlobalMethodSecurity
+@Slf4j
 public class RestDataApplication extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -52,6 +61,15 @@ public class RestDataApplication extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/").permitAll().and().csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }
+
+    // @Override
+    // protected void configure(HttpSecurity http) throws Exception {
+    // http.antMatcher("/**")
+    // .authorizeRequests()
+    // .antMatchers("/", "/login**", "/webjars/**").permitAll()
+    // .anyRequest().authenticated() .and().exceptionHandling()
+    // .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"));
+    // }
 
     private Filter ssoFilter() {
         CompositeFilter filter = new CompositeFilter();
@@ -85,7 +103,11 @@ public class RestDataApplication extends WebSecurityConfigurerAdapter {
 
     @RequestMapping("/auth")
     public Principal user(Principal principal) {
-        return principal;
+        Principal retVal = principal;
+        
+        Util.logPrincipalDetails(retVal);
+        
+        return retVal;
     }
 
     @Bean
