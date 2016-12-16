@@ -7,5 +7,6 @@ applications:
   memory: 1G
   env:
    JBP_CONFIG_OPENJDK: 'version: 1.8.+'
+   SPRING_PROFILES_ACTIVE: 'dev'
   services:
     - mysql
