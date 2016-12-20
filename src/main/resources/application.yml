@@ -3,4 +3,4 @@ spring:
     name: rest-data
 logging:
   level:
-    ROOT: DEBUG
+    ROOT: INFO
