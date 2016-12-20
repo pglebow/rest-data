@@ -76,6 +76,7 @@ public class RestDataApplication extends WebSecurityConfigurerAdapter {
         List<Filter> filters = new ArrayList<>();
         filters.add(ssoFilter(facebook(), "/login/facebook"));
         filters.add(ssoFilter(github(), "/login/github"));
+        filters.add(ssoFilter(gap(), "/login/gap"));
         filter.setFilters(filters);
         return filter;
     }
@@ -101,6 +102,12 @@ public class RestDataApplication extends WebSecurityConfigurerAdapter {
         return new ClientResources();
     }
 
+    @Bean
+    @ConfigurationProperties("gap")
+    public ClientResources gap() {
+        return new ClientResources();
+    }
+    
     @RequestMapping("/auth")
     public Principal user(Principal principal) {
         Principal retVal = principal;
