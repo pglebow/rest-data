@@ -103,7 +103,7 @@ and reload the entity, you'll get a status code of `304/Not modified` and the bo
 Look at the messages in the log; they describe the actions taken when attempting to retrieve a user.
 
 ## OAUTH2
-OAUTH2 is a specification that for authentication and authorizations.  See the references for a in-depth discussion of the framework.  
+OAUTH2 is a specification for authentication and authorization.  See the references for a in-depth discussion of the framework.  
 This project uses Spring Security to perform a very basic authentication and authorization flow using Facebook and Github.  
 I've deployed two "applications" to demonstrate this - one on Facebook and one on Github.
 The demo simply displays what data is made avaialble once a user authenticates via either platform.
