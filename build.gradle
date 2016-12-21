@@ -57,7 +57,6 @@ dependencies {
 	compile("org.springframework.cloud:spring-cloud-starter-config:1.2.2.RELEASE")
 	compile("org.springframework.cloud:spring-cloud-spring-service-connector:$springCloudVersion")
     compile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudVersion")
-	compile("org.springframework.boot:spring-boot-starter-thymeleaf")
 	compile("org.springframework.boot:spring-boot-legacy:+")
 	
 	compile('org.projectlombok:lombok:1.16.8')
@@ -66,6 +65,7 @@ dependencies {
     compile('org.json:json:20160212')
 		
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.springframework.security:spring-security-test')
 	testCompile('junit:junit')
 }
 

@@ -37,28 +37,6 @@ public class Util {
      * @param r
      * @throws IOException
      */
-    // public static List<Document> parseJson(URL url) throws IOException {
-    // List<Document> retVal = null;
-    // if ( url != null ) {
-    // String jsonText = Resources.toString(url, Charsets.UTF_8);
-    // JSONArray array = new JSONArray(jsonText);
-    //
-    // retVal = new ArrayList<Document>(array.length());
-    // for ( int i = 0; i < array.length(); i++ ) {
-    // JSONObject o = array.getJSONObject(i);
-    // Document d = Document.parse(o.toString());
-    // retVal.add(d);
-    // }
-    // }
-    // return Optional.ofNullable(retVal).orElse(Collections.emptyList());
-    // }
-
-    /**
-     * Json Document parser
-     * 
-     * @param r
-     * @throws IOException
-     */
     public static Set<User> parseJsonIntoUsers(URL url) throws IOException {
         Set<User> retVal = null;
         if (url != null) {
@@ -84,7 +62,7 @@ public class Util {
      */
     public static void logPrincipalDetails(final Principal p) {
         if (p != null && OAuth2Authentication.class.isAssignableFrom(p.getClass())) {
-            OAuth2Authentication auth = (OAuth2Authentication) p;            
+            OAuth2Authentication auth = (OAuth2Authentication) p;
             if (auth.getUserAuthentication() != null && UsernamePasswordAuthenticationToken.class
                     .isAssignableFrom(auth.getUserAuthentication().getClass())) {
                 UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) auth
@@ -94,7 +72,7 @@ public class Util {
                     for (Map.Entry<?, ?> e : c.entrySet()) {
                         log.info(e.getKey() + "=" + e.getValue());
                     }
-                    log.info(System.lineSeparator());                
+                    log.info(System.lineSeparator());
                 }
             }
         }
