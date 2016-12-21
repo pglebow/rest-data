@@ -3,7 +3,8 @@
 2. [ETags](#etags)
 3. [Getting Started](#getting-started)
 4. [Things to Try](#things-to-try)
-5. [References](#references)
+5. [OAUTH2](#oauth2)
+6. [References](#references)
  
 
 # rest-data
@@ -101,6 +102,13 @@ and reload the entity, you'll get a status code of `304/Not modified` and the bo
 ### Run the [ClientExampleControllerTest](src/test/java/com/glebow/demo/controller/ClientExampleControllerTest.java)
 Look at the messages in the log; they describe the actions taken when attempting to retrieve a user.
 
+## OAUTH2
+OAUTH2 is a specification that for authentication and authorizations.  See the references for a in-depth discussion of the framework.  
+This project uses Spring Security to perform a very basic authentication and authorization flow using Facebook and Github.  
+I've deployed two "applications" to demonstrate this - one on Facebook and one on Github.
+The demo simply displays what data is made avaialble once a user authenticates via either platform.
+The internal SSO version is being developed but we're having some difficulty with Ping Federate as of this writing.
+
 ## References
 | Description | Link |
 | ---- | ---- |
@@ -108,3 +116,6 @@ Look at the messages in the log; they describe the actions taken when attempting
 | RFC 7232: Conditional Requests (ETags) | https://tools.ietf.org/html/rfc7232 |
 | de.flapdoodle.embed.mongo Embedded MongoDB | https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo |
 | ETags and browser cache | http://thespringthing.blogspot.com/2015/06/etags-and-browser-cache.html |
+| An Introduction to OAUTH2 | https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2 |
+| OAuth | https://oauth.net/2 |
+| Spring Boot and OAuth2 | https://spring.io/guides/tutorials/spring-boot-oauth2/ |
